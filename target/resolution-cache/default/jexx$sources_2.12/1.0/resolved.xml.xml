@@ -4,7 +4,7 @@
 		module="jexx$sources_2.12"
 		revision="1.0"
 		status="integration"
-		publication="20170524204314"
+		publication="20170525192832"
 	/>
 	<configurations>
 		<conf name="compile" visibility="public" description=""/>
