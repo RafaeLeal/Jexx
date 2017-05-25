@@ -1,4 +1,4 @@
-import com.ploomes.jexx.config.JexxJsonConfig
+import com.ploomes.jexx.config.JexxRefJsonConfig
 import org.json4s.DefaultFormats
 import org.scalatest.FlatSpec
 import org.json4s.native.JsonMethods._
@@ -11,7 +11,7 @@ class JexxJsonSpec extends FlatSpec {
   import com.ploomes.jexx.Jexx._
   implicit val formats = DefaultFormats
   "JexxJsonConfig" must "reference a list" in {
-    implicit val config = new JexxJsonConfig
+    implicit val config = new JexxRefJsonConfig
     val jsonStr = """{
                     |  "a": "JexxRef{a}"
                     |}""".stripMargin
@@ -24,7 +24,7 @@ class JexxJsonSpec extends FlatSpec {
     assert(Try((parse(result) \ "a").extract[List[Map[String, Any]]]).isSuccess)
   }
   it must "reference a object" in {
-    implicit val config = new JexxJsonConfig
+    implicit val config = new JexxRefJsonConfig
     val jsonStr = """{
                     |  "a": "JexxRef{a(0)}"
                     |}""".stripMargin
@@ -37,7 +37,7 @@ class JexxJsonSpec extends FlatSpec {
     assert(Try((parse(result) \ "a").extract[Map[String, Any]]).isSuccess)
   }
   it must "reference a string" in {
-    implicit val config = new JexxJsonConfig
+    implicit val config = new JexxRefJsonConfig
     val jsonStr = """{
                     |  "a": "JexxRef{a(0).s}"
                     |}""".stripMargin
@@ -50,7 +50,7 @@ class JexxJsonSpec extends FlatSpec {
     assert(Try((parse(result) \ "a").extract[String]).isSuccess)
   }
   it must "reference a number" in {
-    implicit val config = new JexxJsonConfig
+    implicit val config = new JexxRefJsonConfig
     val jsonStr = """{
                     |  "a": "JexxRef{a(0).i}"
                     |}""".stripMargin
@@ -63,7 +63,7 @@ class JexxJsonSpec extends FlatSpec {
     assert(Try((parse(result) \ "a").extract[Double]).isSuccess)
   }
   it must "reference a boolean" in {
-    implicit val config = new JexxJsonConfig
+    implicit val config = new JexxRefJsonConfig
     val jsonStr = """{
                     |  "a": "JexxRef{a(0).b}"
                     |}""".stripMargin
@@ -76,7 +76,7 @@ class JexxJsonSpec extends FlatSpec {
     assert(Try((parse(result) \ "a").extract[Boolean]).isSuccess)
   }
   it must "reference a null" in {
-    implicit val config = new JexxJsonConfig
+    implicit val config = new JexxRefJsonConfig
     val jsonStr = """{
                     |  "a": "JexxRef{a(0).n}"
                     |}""".stripMargin

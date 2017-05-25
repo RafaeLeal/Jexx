@@ -15,8 +15,8 @@ class JexxDefaultConfig extends JexxConfig {
   implicit val formats = DefaultFormats
   override val regex: Regex = """\$[\w:çãáéíóúàõôê]+(\([\w:\{\}\[\]\(\)\\çãáéíóúàõôê", $]*\))*|\$\{([\w\.ç:ãáéíóúàõôê]|\(.+?\))+?\}""".r
   override val parser: JexxParser = JexxDefaultParser
-  override val find: (List[String], Any) => Any = {
-    (nav: List[String], any: Any) => {
+  override val find: (List[String], JexxObject) => Any = {
+    (nav: List[String], any: JexxObject) => {
       DotNotation.getValue(any, nav)
     }
   }

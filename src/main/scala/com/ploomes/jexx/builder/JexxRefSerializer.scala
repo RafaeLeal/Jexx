@@ -11,6 +11,10 @@ class JexxRefSerializer extends CustomSerializer[JexxRef](format => (
     case JObject(JField("Ref", JString(s)) :: Nil) => JexxRef(s)
   },
   {
-    case ref: JexxRef=> JString(s"JexxRef{${ref.Ref}}")
+    case ref: JexxRef=>
+      ref.Source match {
+        case "xml" => JString(s"JexxXmlRef{${ref.Ref}}")
+        case "json" => JString(s"JexxRef{${ref.Ref}}")
+      }
   }
 ))

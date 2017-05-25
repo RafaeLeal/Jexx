@@ -7,13 +7,9 @@ import org.json4s.JsonAST.{JField, JObject, JString}
 
 import scala.util.matching.Regex
 
-
-
-
-
-class JexxJsonConfig extends JexxDefaultConfig {
+class JexxRefJsonConfig extends JexxDefaultConfig {
   private val defaultConfig = new JexxDefaultConfig
-  override val regex: Regex = "\"JexxRef\\{.*\\}\"".r
+  override val regex: Regex = "\"JexxRef\\{.*?\\}\"".r
   override val parser = JexxRefParser
   override val foundHandler: (Any) => String = {
     case str: String => s""""$str""""

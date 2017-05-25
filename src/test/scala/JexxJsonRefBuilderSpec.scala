@@ -8,7 +8,13 @@ class JexxJsonRefBuilderSpec extends FlatSpec{
   "JexxJsonRefBuilder" must "create a json with JexxRefs" in {
     val jsonWithRefs = """{"a":{"Ref": "pokemon.name"}}"""
 
-    val builder = JexxJsonRefBuilder(jsonWithRefs)
-    assert(builder.contains("JexxRef{pokemon.name}"))
+    val built = JexxJsonRefBuilder(jsonWithRefs)
+    assert(built.contains("JexxRef{pokemon.name}"))
+  }
+  it must "create a json with JexxXmlRefs" in {
+    val jsonWithRefs = """{"a":{"Ref": "trainers # //ash/name", "Source": "xml"}}"""
+
+    val built = JexxJsonRefBuilder(jsonWithRefs)
+    assert(built.contains("JexxXmlRef{trainers # //ash/name}"))
   }
 }

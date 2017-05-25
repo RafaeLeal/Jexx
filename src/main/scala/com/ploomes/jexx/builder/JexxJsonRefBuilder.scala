@@ -18,7 +18,8 @@ object JexxJsonRefBuilder {
       val isReference = obj.get("Ref").isDefined
       if (isReference) {
         val ref = obj("Ref").asInstanceOf[String]
-        JexxRef(ref)
+        val source = obj.getOrElse("Source", "json").asInstanceOf[String]
+        JexxRef(ref, source)
       } else obj.mapValues(value => substituteReference(value))
     case null => null
     case any: Any => any
@@ -29,8 +30,8 @@ object JexxJsonRefBuilder {
     val mapWithRef: JexxObject = try {
         substituteReference(map).asInstanceOf[JexxObject]
       } catch {
-      case t: Throwable => throw new JexxException("Could not substitute references")
-    }
+        case t: Throwable => throw new JexxException("Could not substitute references")
+      }
       write(mapWithRef)
     }
 }

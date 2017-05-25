@@ -101,7 +101,7 @@ class JexxSpec extends FlatSpec {
   }
 
   it must "list dependencies" in {
-    val matches: List[String] = """${foo.bar.baz} on ${baz.bar.foo}""".jexxDeps
+    val matches: Set[String] = """${foo.bar.baz} on ${baz.bar.foo}""".jexxDeps
     assert(matches.contains("foo"))
     assert(matches.contains("baz"))
   }

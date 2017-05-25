@@ -12,7 +12,14 @@ trait JexxConfig {
   val regex: Regex
   val parser: JexxParser
   val foundHandler: (Any) => String
-  val find: (List[String], Any) => Any
+  /**
+    * Find function
+    * List[String] is the parsed value
+    * Any is the variables
+    */
+  val find: (List[String], JexxObject) => Any
   val notFoundHandler: (List[String]) => String
-  val listedBy: (Any) => JexxObject
+  val listedBy: (Any) => JexxObject = {
+    case obj: Map[String, Any] => obj
+  }
 }

@@ -1,6 +1,7 @@
 import java.io.StringReader
 import java.util
 
+import com.ploomes.jexx.config.JexxXmlConfig
 import com.ploomes.jexx.xml.JexxXML
 import contextual.Prefix
 import kantan.xpath.XPathCompiler
@@ -16,34 +17,7 @@ import org.w3c.dom.NamedNodeMap
   * Created by rafaeleal on 23/05/17.
   */
 class JexxXMLSpec extends FlatSpec {
-  "XML library" must "parse Xpath correctly" in {
-    import kantan.xpath.implicits._
-    val s = "/users/test"
-    val x = "/users"
-    val a = xp"//user/@id"
-    val xp: Prefix[XPathLiteral.ContextType, XPathLiteral.type] = new StringContext(s).xp
-    def compile(xmlStr: String) = XPathCompiler.builtIn.compile(xmlStr).get
-    val xpathexpr = compile(s)
-    import kantan.xpath._
-    val xml = "<users><user id='1' b='false'></user><test a='foo'>aum</test><user id='2' b='true'/></users>"
-    //    import kantan.xpath.ops._
-    val value = xml.evalXPath[List[String]](xpathexpr)
-    println(value)
-    val nodevalue = xml.evalXPath[Node](xpathexpr).get
-    val node = xml.evalXPath[Node](compile(x)).get
-    val map = nodevalue.getAttributes
-    val av = map.getNamedItem("a")
-    println(s"<${nodevalue.getNodeName} $map></${nodevalue.getNodeName}>")
-    println(s"${node.getNodeName} ${node} ${node.getTextContent}")
-    val xmlstr =
-      """<root>
-          <element id="1" enabled="true"/>
-          <element id="2" enabled="false"/>
-          <element id="3" enabled="true"/>
-          <element id="4" enabled="false"/>
-      </root>"""
-   // xmlstr.evalXPath[Node]("//element/@id")
-  }
+    import com.ploomes.jexx.Jexx._
 
   "JexxXML" must "eval xpath" in {
     val xmlstr =
@@ -89,5 +63,29 @@ class JexxXMLSpec extends FlatSpec {
                      |</SOAP-ENV:Envelope>""".stripMargin
     val result = JexxXML(soapResp).evalXPath("//m:Quotation/text()")
     assert(result === "Here is the quotation")
+  }
+
+  "Jexx with JexxXmlConfig" must "substitute the reference" in {
+
+    implicit val config = new JexxXmlConfig
+
+    val soapResp = """<?xml version="1.0"?>
+                     |<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://www.w3.org/2001/12/soap-envelope" SOAP-ENV:encodingStyle="http://www.w3.org/2001/12/soap-encoding" >
+                     |
+                     |   <SOAP-ENV:Body xmlns:m="http://www.xyz.org/quotation" >
+                     |
+                     |      <m:GetQuotationResponse>
+                     |         <m:Quotation>I'm the Iron-man</m:Quotation>
+                     |      </m:GetQuotationResponse>
+                     |
+                     |   </SOAP-ENV:Body>
+                     |
+                     |</SOAP-ENV:Envelope>""".stripMargin
+
+    val starkQuote = "Tony Stark said: #{soapResp # //m:Quotation/text()}" jexxBy Map(
+      "soapResp" -> soapResp
+    )
+
+    assert(starkQuote === "Tony Stark said: I'm the Iron-man")
   }
 }
