@@ -10,7 +10,7 @@ import org.json4s.native.Serialization.write
   * Created by rafaeleal on 20/05/17.
   */
 object JexxJsonRefBuilder {
-  private def substituteReference(d: Any): Any = d match {
+  def substituteReference(d: Any): Any = d match {
     case l: List[Map[_, _]] =>
       val list = l.asInstanceOf[List[Map[String, Any]]]
       list.map(_.map(substituteReference))

@@ -4,10 +4,10 @@
 	<info
 		organisation="default"
 		module="jexx_2.12"
-		revision="1.0"
+		revision="1.0-SNAPSHOT"
 		conf="plugin"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
-		date="20170524204228"/>
+		date="20170526165400"/>
 	<dependencies>
 	</dependencies>
 </ivy-report>
