@@ -11,9 +11,8 @@ import org.json4s.native.Serialization.write
   */
 object JexxJsonRefBuilder {
   def substituteReference(d: Any): Any = d match {
-    case l: List[Map[_, _]] =>
-      val list = l.asInstanceOf[List[Map[String, Any]]]
-      list.map(_.map(substituteReference))
+    case list: List[Map[_, _]] =>
+      list.map(substituteReference)
     case obj: Map[String, Any] =>
       val isReference = obj.get("Ref").isDefined
       if (isReference) {

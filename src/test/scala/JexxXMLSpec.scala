@@ -3,14 +3,6 @@ import java.util
 
 import com.ploomes.jexx.config.JexxXmlConfig
 import com.ploomes.jexx.xml.JexxXML
-import contextual.Prefix
-import kantan.xpath.XPathCompiler
-import kantan.xpath.literals.XPathLiteral
-import org.jdom2.{Content, Element, Namespace}
-import org.jdom2.filter.Filters
-import org.jdom2.input.SAXBuilder
-import org.jdom2.output.{Format, XMLOutputter}
-import org.jdom2.xpath.XPathFactory
 import org.scalatest.FlatSpec
 import org.w3c.dom.NamedNodeMap
 /**

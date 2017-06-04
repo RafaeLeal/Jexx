@@ -17,4 +17,10 @@ class JexxJsonRefBuilderSpec extends FlatSpec{
     val built = JexxJsonRefBuilder(jsonWithRefs)
     assert(built.contains("JexxXmlRef{trainers # //ash/name}"))
   }
+  it must "build when json has array of primitives" in {
+    val jsonWithRefs = """{"a":{"Ref": "pokemon.name"}, "b": ["energy", "fire"]}"""
+
+    val built = JexxJsonRefBuilder(jsonWithRefs)
+    assert(built.contains("JexxRef{pokemon.name}"))
+  }
 }
