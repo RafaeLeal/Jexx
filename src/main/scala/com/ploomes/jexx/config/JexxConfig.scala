@@ -18,7 +18,7 @@ trait JexxConfig {
     * Any is the variables
     */
   val find: (List[String], JexxObject) => Any
-  val notFoundHandler: (List[String]) => String
+  val notFoundHandler: (String, List[String]) => String
   val listedBy: (Any) => JexxObject = {
     case obj: Map[String, Any] => obj
   }

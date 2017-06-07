@@ -29,6 +29,16 @@ class JexxSpec extends FlatSpec {
     assert(str === "Pikachu attacks with thunderbolt")
   }
 
+  it must "not replace when not found" in {
+    val str: String =
+      "${pokemon.name} attacks with ${pokemon.attack.name}" jexxBy Map(
+        "pokemon" -> Map(
+          "name" -> "Pikachu"
+        )
+      )
+    assert(str === "Pikachu attacks with ${pokemon.attack.name}")
+  }
+
   it must "replace when index is used" in {
     val str: String = {
       "${pokemons(0).name} attacks with ${pokemons(0).attack.name}" jexxBy Map(
@@ -76,8 +86,8 @@ class JexxSpec extends FlatSpec {
   }
   it must "replace with jexxp" in {
     val str = """${pokemons({"name":"pikachu"}).name} attacks with ${pokemons({"name":"pikachu"}).attack.name}""" jexxp {
-      case List("pokemons", """({"name":"pikachu"})""", "name") => "Pikachu"
-      case List("pokemons", """({"name":"pikachu"})""", "attack", "name") => "thunderbolt"
+      case (_, List("pokemons", """({"name":"pikachu"})""", "name")) => "Pikachu"
+      case (_, List("pokemons", """({"name":"pikachu"})""", "attack", "name")) => "thunderbolt"
     }
     assert(str === "Pikachu attacks with thunderbolt")
   }

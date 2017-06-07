@@ -2,7 +2,7 @@ package com.ploomes.jexx
 
 import com.ploomes.jexx.config.{JexxConfig, JexxDefaultConfig}
 
-import scala.util.Try
+import scala.util.{Failure, Success, Try}
 import scala.util.matching.Regex
 import scala.util.matching.Regex.Match
 
@@ -14,10 +14,15 @@ object Jexx {
   implicit class JexxImpl(str: String)(implicit config: JexxConfig) extends JexxInterface {
     override def jexxBy(x: Any): String = {
       val variables: JexxObject = config.listedBy(x)
-      str.jexxp(parsed => {
-        val navigatedValue = config.find(parsed, variables)
-        config.foundHandler(navigatedValue)
-      })
+      def f(notparsed: String, parsed: List[String]) = {
+        Try(config.find(parsed, variables)) match {
+          case Failure(_) =>
+            config.notFoundHandler(notparsed, parsed)
+          case Success(value) =>
+            config.foundHandler(value)
+        }
+      }
+      str.jexxp(f)
     }
 
     override def jexx (f: String => String): String = {
@@ -28,11 +33,11 @@ object Jexx {
       }
     }
 
-    override def jexxp (f: List[String] => String): String = {
+    override def jexxp (f: (String, List[String]) => String): String = {
       val matches = str.jexxMatches
       matches.foldLeft(str) { (acc, m) =>
         val parsed = config.parser(m.matched)
-        val replacement: String = f(parsed)
+        val replacement: String = f(m.matched, parsed)
         acc.replaceAllLiterally(m.matched, replacement)
       }
     }

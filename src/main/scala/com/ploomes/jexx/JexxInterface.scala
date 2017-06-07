@@ -10,7 +10,7 @@ trait JexxInterface {
 
   def jexx(f: String => String): String
 
-  def jexxp(f: List[String] => String): String
+  def jexxp(f: (String, List[String]) => String): String
 
   def jexxMatches: List[Regex.Match]
 

@@ -23,7 +23,7 @@ object JexxCombinator {
       }}
     }
 
-    override def jexxp(f: (List[String]) => String): String = {
+    override def jexxp(f: (String, List[String]) => String): String = {
       import Jexx.JexxImpl
       configs.foldLeft(str) {(acc, conf) => {
         JexxImpl(acc)(conf).jexxp(f)

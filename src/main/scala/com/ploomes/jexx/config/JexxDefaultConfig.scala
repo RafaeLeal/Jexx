@@ -23,7 +23,7 @@ class JexxDefaultConfig extends JexxConfig {
   override val listedBy: (Any) => JexxObject = {
     case obj: Map[String, Any] => obj
   }
-  override val notFoundHandler: (List[String]) => String = _ => ""
+  override val notFoundHandler: (String, List[String]) => String = (nparsed, _) => nparsed
   override val foundHandler: (Any) => String = {
     case v @(_: String | _: Int | _: Boolean | _: Integer | _:BigDecimal) => v.toString
     case j: JexxObject =>  write(j)

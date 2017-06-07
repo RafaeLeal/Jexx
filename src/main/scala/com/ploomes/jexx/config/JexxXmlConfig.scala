@@ -29,7 +29,7 @@ class JexxXmlConfig extends JexxConfig{
       }
     case _ => null
   }
-  override val notFoundHandler: (List[String]) => String = {
-    case (list) => ""
+  override val notFoundHandler: (String, List[String]) => String = {
+    case (nparsed, _) => nparsed
   }
 }

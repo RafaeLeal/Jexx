@@ -20,7 +20,7 @@ object RichTypes {
     def richGet(key: String): Any = {
       jexxObject.get(key) match {
         case Some(x) => x
-        case None => throw new JexxValueNotFoundException
+        case None => throw new JexxValueNotFoundException(jexxObject, key)
       }
     }
   }
@@ -36,7 +36,7 @@ object RichTypes {
       }
       value match {
         case Some(x) => x
-        case None => throw new JexxValueNotFoundException
+        case None => throw new JexxValueNotFoundException(jexxList, indexOrSift)
       }
     }
   }
