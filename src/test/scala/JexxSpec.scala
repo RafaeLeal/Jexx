@@ -77,6 +77,29 @@ class JexxSpec extends FlatSpec {
     assert(str === "Pikachu attacks with thunderbolt")
   }
 
+  it must "replace when a sift is used and it has dot and special characters on value" in {
+    val pikachu = Map(
+      "name" -> "Pika.chú",
+      "attack" -> Map(
+        "name" -> "thunderbolt"
+      )
+    )
+    val bulbassaur = Map(
+      "name" -> "Bulbassaur"
+    )
+    val charmander = Map(
+      "name" -> "Charmander"
+    )
+
+    val str: String = {
+      """${pokemons({"name":"Pika.chú"}).name} attacks with ${pokemons({"name":"Pika.chú"}).attack.name}""" jexxBy Map(
+        "pokemons" -> List(pikachu, bulbassaur, charmander)
+      )
+    }
+
+    assert(str === "Pika.chú attacks with thunderbolt")
+  }
+
   it must "replace with jexx" in {
     val str = """${pokemons({"name":"pikachu"}).name} attacks with ${pokemons({"name":"pikachu"}).attack.name}""" jexx {
       case """${pokemons({"name":"pikachu"}).name}""" => "Pikachu"
