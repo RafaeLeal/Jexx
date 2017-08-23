@@ -15,7 +15,7 @@ import scala.util.matching.Regex
 object DotNotation extends NavigationNotation {
   import RichTypes._
   private def extractParam(param: String)(implicit formats: DefaultFormats): Any = {
-    val indexRegex: Regex = "\\d+".r
+    val indexRegex: Regex = "^\\d+$".r
     param match {
       case index
         if index.startsWith("(") &&

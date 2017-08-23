@@ -32,7 +32,8 @@ object RichTypes {
         case sift: Sift =>
 //          val option = jexxList.find(sift.testQuery)
 //          option
-          Some(jexxList.filter(sift.testQuery))
+          val filteredBySift = jexxList.filter(sift.testQuery)
+          Some(filteredBySift)
         case _ => throw new JexxException(s"Non valid list navigation. Found: $indexOrSift")
       }
       value match {
