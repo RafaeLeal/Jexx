@@ -69,12 +69,40 @@ class JexxSpec extends FlatSpec {
     )
 
     val str: String = {
-      """${pokemons({"name":"Pikachu"}).name} attacks with ${pokemons({"name":"Pikachu"}).attack.name}""" jexxBy Map(
+      """${pokemons({"name":"Pikachu"})(0).name} attacks with ${pokemons({"name":"Pikachu"})(0).attack.name}""" jexxBy Map(
         "pokemons" -> List(pikachu, bulbassaur, charmander)
       )
     }
 
     assert(str === "Pikachu attacks with thunderbolt")
+  }
+
+  it must "replace when a sift is used as fold" in {
+    val pikachu = Map(
+      "name" -> "Pikachu",
+      "attack" -> Map(
+        "name" -> "thunderbolt"
+      )
+    )
+    val bulbassaur = Map(
+      "name" -> "Bulbassaur",
+      "attack" -> Map(
+        "name" -> "cipó"
+      )
+    )
+    val charmander = Map(
+      "name" -> "Charmander",
+      "attack" -> Map(
+        "name" -> "fire"
+      )
+    )
+
+    val str: String = {
+      """Pokemons ${pokemons({})(;).name} attacks with ${pokemons({})(;).attack.name}, respectively""" jexxBy Map(
+        "pokemons" -> List(pikachu, bulbassaur, charmander)
+      )
+    }
+    assert(str === "Pokemons Pikachu;Bulbassaur;Charmander attacks with thunderbolt;cipó;fire, respectively")
   }
 
   it must "replace when a sift is used and it has dot and special characters on value" in {
@@ -92,7 +120,7 @@ class JexxSpec extends FlatSpec {
     )
 
     val str: String = {
-      """${pokemons({"name":"Pika.chú"}).name} attacks with ${pokemons({"name":"Pika.chú"}).attack.name}""" jexxBy Map(
+      """${pokemons({"name":"Pika.chú"})(0).name} attacks with ${pokemons({"name":"Pika.chú"})(0).attack.name}""" jexxBy Map(
         "pokemons" -> List(pikachu, bulbassaur, charmander)
       )
     }

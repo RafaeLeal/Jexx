@@ -30,8 +30,9 @@ object RichTypes {
         case _: String => throw new JexxException("Can't navigate through lists with key as string")
         case i: Int => jexxList.lift(i)
         case sift: Sift =>
-          val option = jexxList.find(sift.testQuery)
-          option
+//          val option = jexxList.find(sift.testQuery)
+//          option
+          Some(jexxList.filter(sift.testQuery))
         case _ => throw new JexxException(s"Non valid list navigation. Found: $indexOrSift")
       }
       value match {

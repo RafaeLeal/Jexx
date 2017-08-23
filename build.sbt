@@ -2,7 +2,7 @@ name := "jexx"
 
 organization := "com.ploomes"
 
-version := "1.0-SNAPSHOT"
+version := "1.1-SNAPSHOT"
 
 scalaVersion := "2.12.2"
 
