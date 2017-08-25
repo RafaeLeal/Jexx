@@ -1,5 +1,6 @@
 import com.ploomes.jexx.config.JexxRefJsonConfig
 import org.json4s.DefaultFormats
+import org.json4s.JsonAST.JNull
 import org.scalatest.FlatSpec
 import org.json4s.native.JsonMethods._
 
@@ -85,6 +86,8 @@ class JexxJsonSpec extends FlatSpec {
         Map("s" -> "string", "i" -> 42, "b" -> true, "n" -> null)
       )
     )
-    assert(Try(parse(result)).isSuccess)
+    val triedJValue = Try(parse(result))
+    assert(triedJValue.isSuccess)
+    println((triedJValue.get \ "a") == JNull)
   }
 }
