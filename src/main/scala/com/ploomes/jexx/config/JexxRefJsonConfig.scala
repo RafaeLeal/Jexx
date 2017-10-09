@@ -12,8 +12,20 @@ class JexxRefJsonConfig extends JexxDefaultConfig {
   override val regex: Regex = "\"JexxRef\\{.*?\\}\"".r
   override val parser = JexxRefParser
   override val foundHandler: (Any) => String = {
-    case str: String => s""""$str""""
+    case str: String =>
+
+      val replaced = str
+        .replaceAllLiterally("\\", "\\\\")
+        .replaceAllLiterally("\r", "\\r")
+        .replaceAllLiterally("\f", "\\f")
+        .replaceAllLiterally("\t", "\\t")
+        .replaceAllLiterally("\n", "\\n")
+        .replaceAllLiterally("\b", "\\b")
+        .replaceAllLiterally("\"", "\\\"")
+
+      s""""$replaced""""
     case null => defaultConfig.foundHandler(null)
     case any: Any => defaultConfig.foundHandler(any)
   }
 }
+

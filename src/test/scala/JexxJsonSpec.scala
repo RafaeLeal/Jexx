@@ -88,6 +88,36 @@ class JexxJsonSpec extends FlatSpec {
     )
     val triedJValue = Try(parse(result))
     assert(triedJValue.isSuccess)
-    println((triedJValue.get \ "a") == JNull)
+    assert((triedJValue.get \ "a") == JNull)
+  }
+
+  it must "reference a string with quote" in {
+    implicit val config = new JexxRefJsonConfig
+    val jsonStr = """{
+                    |  "a": "JexxRef{a(0).s}"
+                    |}""".stripMargin
+    val result = jsonStr jexxBy Map(
+      "a" -> List(
+        Map("s" -> "st\"ring", "i" -> 42, "b" -> true, "n" -> null)
+      )
+    )
+    val triedJValue = Try(parse(result))
+    assert(triedJValue.isSuccess)
+    assert((triedJValue.get \ "a").extract[String] == "st\"ring")
+  }
+
+  it must "reference a string with backslash" in {
+    implicit val config = new JexxRefJsonConfig
+    val jsonStr = """{
+                    |  "a": "JexxRef{a(0).s}"
+                    |}""".stripMargin
+    val result = jsonStr jexxBy Map(
+      "a" -> List(
+        Map("s" -> "str\\ing", "i" -> 42, "b" -> true, "n" -> null)
+      )
+    )
+    val triedJValue = Try(parse(result))
+    assert(triedJValue.isSuccess)
+    assert((triedJValue.get \ "a").extract[String] == "str\\ing")
   }
 }
